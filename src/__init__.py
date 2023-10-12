@@ -42,7 +42,7 @@ def matrix(
 def fraction(numerator: types.Expression, denominator: types.Expression) -> str:
     """Converts a fraction to LaTeX form."""
     numerator, denominator = types.params2expressions(numerator, denominator)
-    return f"\\frac{{{numerator}}}{{{denominator}}}"
+    return f"\\frac" + "".join(wrps.wrap(i, *r"{}") for i in [numerator, denominator])
 
 
 def sum_latex(
@@ -50,7 +50,7 @@ def sum_latex(
 ) -> str:
     """Converts a sum to LaTeX form."""
     start, end, term = types.params2expressions(start, end, term)
-    return subscript_superscript("\\sum", str(start), str(end)) + term
+    return subscript_superscript("\\sum", start, end) + term
 
 
 def product_latex(
@@ -58,7 +58,7 @@ def product_latex(
 ) -> str:
     """Converts a product to LaTeX form."""
     start, end, term = types.params2expressions(start, end, term)
-    return subscript_superscript("\\prod", str(start), str(end)) + term
+    return subscript_superscript("\\prod", start, end) + term
 
 
 def add_latex(*terms: types.Expression) -> str:
@@ -120,4 +120,4 @@ def integral_latex(
 ) -> str:
     """Converts an integral to LaTeX form."""
     start, end, term = types.params2expressions(start, end, term)
-    return subscript_superscript("\\int", str(start), str(end)) + term
+    return subscript_superscript("\\int", start, end) + term
