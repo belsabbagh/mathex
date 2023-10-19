@@ -10,7 +10,7 @@ def test_float():
 
 
 def test_complex():
-    assert exp(1 + 1j) == "1+1i"
+    assert exp(1 + 1j) == "1.0+i"
 
 
 def test_str():

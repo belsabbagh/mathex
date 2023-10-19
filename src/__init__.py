@@ -39,6 +39,26 @@ def matrix(
     return wrps.brackets(matrix, (b[0], b[1])) if b is not None else matrix
 
 
+def example_matrix(
+    m: list[list], b: tuple[types.Bracket, types.Bracket] = None
+) -> str:
+    """Creates a 4x4 matrix with dots to show the pattern."""
+    if len(m) != 4 or len(m[0]) != 4:
+        raise ValueError("Matrix must be 4x4.")
+    for i in range(4):
+        for j in range(4):
+            m[i][j] = types.exp(m[i][j])
+            if i == j == 2:
+                m[i][j] = syms.dots("d")
+            elif i == 2 and j != 2:
+                m[i][j] = syms.dots("v")
+            elif j == 2 and i != 2:
+                m[i][j] = syms.dots("c")
+            else:
+                m[i][j] = m[i][j]
+    return matrix(m, b)
+
+
 def fraction(numerator: types.Expression, denominator: types.Expression) -> str:
     """Converts a fraction to LaTeX form."""
     numerator, denominator = types.params2expressions(numerator, denominator)
