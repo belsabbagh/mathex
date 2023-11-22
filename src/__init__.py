@@ -39,23 +39,16 @@ def matrix(
     return wrps.brackets(matrix, (b[0], b[1])) if b is not None else matrix
 
 
-def example_matrix(
-    m: list[list], b: tuple[types.Bracket, types.Bracket] = None
-) -> str:
+def example_matrix(m: list[list], b: tuple[types.Bracket, types.Bracket] = None) -> str:
     """Creates a 4x4 matrix with dots to show the pattern."""
+    cases = [0, syms.dots("c"), syms.dots("v"), syms.dots("d")]
     if len(m) != 4 or len(m[0]) != 4:
         raise ValueError("Matrix must be 4x4.")
     for i in range(4):
         for j in range(4):
-            m[i][j] = types.exp(m[i][j])
-            if i == j == 2:
-                m[i][j] = syms.dots("d")
-            elif i == 2 and j != 2:
-                m[i][j] = syms.dots("v")
-            elif j == 2 and i != 2:
-                m[i][j] = syms.dots("c")
-            else:
-                m[i][j] = m[i][j]
+            cases[0] = types.exp(m[i][j])
+            cond_case = int(f"{int(i==2)}{int(j==2)}", 2)
+            m[i][j] = cases[cond_case]
     return matrix(m, b)
 
 
