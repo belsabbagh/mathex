@@ -1,29 +1,29 @@
-from typing import Iterable
+from typing import Iterable, Optional
 import src.symbols as syms
 import src.wrappers as wrps
 from src import types
 
 
-def subscript(base: types.Expression, subscript: types.Expression) -> str:
+def subscript(base: types.Expression, s: types.Expression) -> str:
     """Converts a subscript to LaTeX form."""
-    base, subscript = types.params2expressions(base, subscript)
-    return base + "_" + wrps.wrap(subscript, "{", "}")
+    base, s = types.params2expressions(base, s)
+    return base + "_" + wrps.wrap(s, "{", "}")
 
 
-def superscript(base: types.Expression, superscript: types.Expression) -> str:
+def superscript(base: types.Expression, s: types.Expression) -> str:
     """Converts a superscript to LaTeX form."""
-    base, subscript = types.params2expressions(base, subscript)
-    return base + "^" + wrps.wrap(superscript, "{", "}")
+    base, s = types.params2expressions(base, s)
+    return base + "^" + wrps.wrap(s, "{", "}")
 
 
 def subscript_superscript(
-    base: types.Expression, subscript: types.Expression, superscript: types.Expression
+    base: types.Expression, sub: types.Expression, sup: types.Expression
 ) -> str:
     """Converts a subscript and superscript to LaTeX form."""
-    base, subscript, superscript = types.params2expressions(
-        base, subscript, superscript
+    base, sub, sup = types.params2expressions(
+        base, sub, sup
     )
-    return superscript(subscript(base, subscript), superscript)
+    return superscript(subscript(base, sub), sup)
 
 
 def arr2row(arr: Iterable) -> str:
@@ -32,14 +32,14 @@ def arr2row(arr: Iterable) -> str:
 
 
 def matrix(
-    matrix: Iterable[Iterable], b: tuple[types.Bracket, types.Bracket] = None
+    matrix: Iterable[Iterable], b: Optional[tuple[types.Bracket, types.Bracket] ]= None
 ) -> str:
     """Converts a matrix to LaTeX form."""
     matrix = wrps.wrap_begin_end(r"\\".join(map(arr2row, matrix)), "matrix")
     return wrps.brackets(matrix, (b[0], b[1])) if b is not None else matrix
 
 
-def example_matrix(m: list[list], b: tuple[types.Bracket, types.Bracket] = None) -> str:
+def example_matrix(m: list[list], b: Optional[tuple[types.Bracket, types.Bracket] ]= None) -> str:
     """Creates a 4x4 matrix with dots to show the pattern."""
     cases = [0, syms.dots("c"), syms.dots("v"), syms.dots("d")]
     if len(m) != 4 or len(m[0]) != 4:

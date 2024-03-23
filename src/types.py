@@ -35,6 +35,7 @@ MODES = {
     "int": lambda x: str(x),
     "float": lambda x: str(x),
     "complex": lambda x: __fmt_complex(x),
+    "float64": lambda x: str(x),
 }
 Expression = Union[str, int, float, complex]
 
